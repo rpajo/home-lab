@@ -12,8 +12,9 @@ services:
       # - 80:80/tcp
 
       # enable if you are going to use AdGuard Home's admin panel
-      - 443:443/tcp
-      - 443:443/udp
+      # todo: add common network with proxy
+      # - 443:443/tcp
+      # - 443:443/udp
       - 3000:3000/tcp
       
       # enable if you are going to run AdGuard Home as a DNS-over-TLS server.
