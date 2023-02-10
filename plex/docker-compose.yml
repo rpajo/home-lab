@@ -1,25 +1,17 @@
 services:
   plex:
     container_name: plex
-    image: plexinc/pms-docker
+    image: lscr.io/linuxserver/plex:latest
     restart: unless-stopped
-    ports:
-      - 32400:32400/tcp   # access to the Plex Media Server [required]
-      # - 8324:8324/tcp   # controlling Plex for Roku via Plex Companion
-      # access to the Plex DLNA Server
-      - 32469:32469/tcp   
-      - 1900:1900/udp
-      # GDM network discovery
-      - 32410:32410/udp 
-      - 32412:32412/udp
-      - 32413:32413/udp
-      - 32414:32414/udp
+    network_mode: host
     environment:
-      # - TZ=<timezone>
-      # - PLEX_CLAIM=<claimToken>
-      - ADVERTISE_IP=http://192.168.3.100:32400/
-    hostname: pajero-plex
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - ADVERTISE_IP=http://10.37.30.10:32400/
+    # - PLEX_CLAIM=<claimToken>
     volumes:
       - ~/home-lab/plex/db:/config
-      - ~/home-lab/plex/transc:/transc
+      - /home/homelab-data/movies:/movies
+      - ~/home-lab/homelab-media/shows:/tv
       - /etc/localtime:/etc/localtime:ro
