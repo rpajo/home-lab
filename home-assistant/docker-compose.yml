@@ -1,12 +1,17 @@
 services:
   homeassistant:
+    image: lscr.io/linuxserver/homeassistant:latest
     container_name: homeassistant
-    image: "ghcr.io/home-assistant/home-assistant:stable"
-    volumes:
-      # - /PATH_TO_YOUR_CONFIG:/config
-      - /etc/localtime:/etc/localtime:ro
-    restart: unless-stopped
-    privileged: true
     network_mode: host
-    expose:
-      - 8123
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ~/homelab/config/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    # ports:
+      # - 8123:8123
+    # devices:
+      # - /path/to/device:/path/to/device #optional
+    restart: unless-stopped
