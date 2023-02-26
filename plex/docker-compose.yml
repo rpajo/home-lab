@@ -8,10 +8,10 @@ services:
       - PUID=1000
       - PGID=1000
       - VERSION=docker
-      - ADVERTISE_IP=http://10.37.30.10:32400/
+      - ADVERTISE_IP=https://plex.rpajo.com/
     # - PLEX_CLAIM=<claimToken>
     volumes:
-      - ~/home-lab/plex/db:/config
-      - /home/homelab-data/movies:/movies
-      - ~/home-lab/homelab-media/shows:/tv
+      - $HOME/homelab-data/services-config/plex/db:/config
+      - $HOME/homelab-data/media/movies:/movies
+      - $HOME/homelab-data/media//shows:/tv
       - /etc/localtime:/etc/localtime:ro
