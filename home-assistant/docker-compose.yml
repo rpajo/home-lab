@@ -7,7 +7,7 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ~/homelab/config/homeassistant:/config
+      - $HOME/homelab-data/services-config/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     # ports:
