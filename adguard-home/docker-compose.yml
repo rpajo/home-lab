@@ -3,6 +3,9 @@ services:
     container_name: adguard-home
     image: adguard/adguardhome
     restart: unless-stopped
+    volumes:
+      - $HOME/homelab-data/services-config/adguardhome/confdir:/opt/adguardhome/conf
+      - $HOME/homelab-data/services-config/adguardhome/workdir:/opt/adguardhome/work
     ports:
       - 53:53/tcp   # plain DNS
       - 53:53/udp   # plain DNS
@@ -12,10 +15,10 @@ services:
       # - 80:80/tcp
 
       # enable if you are going to use AdGuard Home's admin panel
-      # todo: add common network with proxy
+      - 3080:80/tcp
+      - 3300:3000/tcp
       # - 443:443/tcp
       # - 443:443/udp
-      - 3000:3000/tcp
       
       # enable if you are going to run AdGuard Home as a DNS-over-TLS server.
       # - 853:853/tcp

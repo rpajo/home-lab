@@ -7,10 +7,10 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - VERSION=latest
+      - VERSION=docker
+      - TZ=Etc/Ljubljana
+      - PLEX_CLAIM=claim-pEWwEzzcyG9DxxCv_x8A
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - $HOME/homelab-data/services-config/plex:/config
-      - $HOME/homelab-data/media/movies:/movies
-      - $HOME/homelab-data/media/shows:/tv
+      - $HOME/homelab-data/media:/local-media
       - /mnt/media:/media-dirve
