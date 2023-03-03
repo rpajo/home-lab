@@ -1,0 +1,17 @@
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/Ljubljana
+      - WEBUI_PORT=9888
+    volumes:
+      - $HOME/homelab-data/services-config/qbittorent:/config
+      - /mnt/media/library/torrents:/downloads
+    ports:
+      - 9888:9888
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
