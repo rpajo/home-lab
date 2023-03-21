@@ -5,7 +5,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/Ljubljana
+      - TZ=Europe/Ljubljana
       - JELLYFIN_PublishedServerUrl=10.37.30.10
     volumes:
       - $HOME/homelab-data/services-config/jellyfin:/config

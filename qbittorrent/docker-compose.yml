@@ -5,7 +5,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/Ljubljana
+      - TZ=Europe/Ljubljana
       - WEBUI_PORT=9888
     volumes:
       - $HOME/homelab-data/services-config/qbittorent:/config

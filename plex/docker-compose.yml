@@ -8,7 +8,7 @@ services:
       - PUID=1000
       - PGID=1000
       - VERSION=docker
-      - TZ=Etc/Ljubljana
+      - TZ=Europe/Ljubljana
       - PLEX_CLAIM=claim-pEWwEzzcyG9DxxCv_x8A
     volumes:
       - $HOME/homelab-data/services-config/plex:/config
