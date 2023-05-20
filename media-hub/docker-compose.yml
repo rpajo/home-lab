@@ -17,7 +17,7 @@ services:
       - 9696:9696
     restart: unless-stopped
 
-  radarr: #movie search agent
+  radarr: # movie search agent
     image: ghcr.io/linuxserver/radarr
     container_name: radarr
     environment:
@@ -32,7 +32,7 @@ services:
       - 7878:7878
     restart: unless-stopped
 
-  sonarr: #TV show search agent
+  sonarr: # TV show search agent
     image: ghcr.io/linuxserver/sonarr:latest
     container_name: sonarr
     environment:
@@ -45,4 +45,19 @@ services:
       - /mnt/media/library:/library
     ports:
       - 8989:8989  
+    restart: unless-stopped
+    
+  bazarr: # subtitles downloader
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - $HOME/homelab-data/services-config/bazarr:/config
+      - /mnt/media/library/media/movies:/movies #optional
+      - /mnt/media/library/media/tv:/tv #optional
+    ports:
+      - 6767:6767
     restart: unless-stopped
