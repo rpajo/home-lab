@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  autobrr:
+    container_name: autobrr
+    image: ghcr.io/autobrr/autobrr:latest
+    restart: unless-stopped
+    #logging:
+    #  driver: json-file
+    #  options:
+    #    max-file: ${DOCKERLOGGING_MAXFILE}
+    #    max-size: ${DOCKERLOGGING_MAXSIZE}
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - $HOME/homelab-data/services-config/autobrr:/config
+    ports:
+      - 7474:7474

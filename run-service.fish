@@ -32,4 +32,4 @@ switch $command
     docker compose -f $service/docker-compose.yml restart
 end
 
-echo "Docker service '$service' has been $command."
+echo "Docker service '$service' has been $command-ed."
