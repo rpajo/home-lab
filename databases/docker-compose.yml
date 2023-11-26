@@ -1,0 +1,23 @@
+version: '3.1'
+
+name: homelab-database
+services:
+  postgres-db:
+    image: postgres:16
+    restart: always
+    volumes:
+      - $HOME/homelab-data/data/postgres:/var/lib/postgresql/data
+    env_file:
+      -  $HOME/services/databases/.env
+    ports:
+      - 5432:5432
+
+  mysql-db:
+    image: mysql:8
+    restart: always
+    volumes:
+      - $HOME/homelab-data/data/mysql:/var/lib/mysql
+    env_file:
+      -  $HOME/services/databases/.env
+    ports:
+      - 3306:3306
