@@ -1,28 +1,25 @@
 version: "3.7"
 services:
-  mealie-frontend:
-    image: hkotel/mealie:frontend-v1.0.0beta-5
-    container_name: mealie-frontend
-    depends_on:
-      - mealie-api
-    environment:
-      - API_URL=http://mealie-api:9000
-    ports:
-      - 9925:3000 # 
-    volumes:
-      - $HOME/homelab-data/services-config/mealie:/app/data/
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v1.0.0-RC1.1
+    container_name: mealie
     restart: unless-stopped
-
-  mealie-api:
-    image: hkotel/mealie:api-v1.0.0beta-5
-    container_name: mealie-api
+    ports:
+      - 9925:9000
     deploy:
       resources:
         limits:
-          memory: 500M
+          memory: 1000M # 
     volumes:
       - $HOME/homelab-data/services-config/mealie:/app/data/
-    env_file:
-      - $HOME/services/mealie/.env
-
-    restart: unless-stopped
+    environment:
+      - ALLOW_SIGNUP=false
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Ljubljana
+      - MAX_WORKERS=1
+      - WEB_CONCURRENCY=1
+      - BASE_URL=https://mealie.rpajo.com
+volumes:
+  mealie-data:
+    driver: local
