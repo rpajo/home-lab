@@ -1,0 +1,23 @@
+version: "3"
+
+networks:
+  invoiceplane:
+    driver: bridge
+
+services:
+  # --- PHP 8.1
+  php:
+    container_name: "invoiceplane-php"
+    build:
+      context: ./resources/docker/php-fpm
+      args:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Europe/Ljubljana
+    expose:
+      - 9000
+    ports:
+      - 9001:9000
+    volumes:
+      - /srv/invoiceplane/:/var/www/projects/invoiceplane:delegated
+      - ./resources/docker/php-fpm/php-dev.ini:/usr/local/etc/php/php.ini
