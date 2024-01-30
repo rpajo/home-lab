@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  invoice-ninja:
+    container_name: "invoice-ninja"
+    image: invoiceninja/invoiceninja:5
+    env_file: 
+      - $HOME/services/invoice-ninja/.env
+    restart: unless-stopped
+    volumes:
+      # - ./config/hosts:/etc/hosts:ro
+      - /srv/invoice-ninja/public:/var/www/app/public:rw,delegated
+      - /srv/invoice-ninja/storage:/var/www/app/storage:rw,delegated
+      # - ./config/php/php.ini:/usr/local/etc/php/php.ini
+      # - ./config/php/php-cli.ini:/usr/local/etc/php/php-cli.ini
+    ports:
+      - 9002:9000
