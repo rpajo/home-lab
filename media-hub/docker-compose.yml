@@ -27,7 +27,7 @@ services:
       - UMASK=022
     volumes:
       - $HOME/homelab-data/services-config/radarr:/config
-      - /mnt/media/library:/library
+      - /mnt/data:/library
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -42,7 +42,7 @@ services:
       - UMASK=022
     volumes:
       - $HOME/homelab-data/services-config/sonarr:/config
-      - /mnt/media/library:/library
+      - /mnt/data:/library
     ports:
       - 8989:8989  
     restart: unless-stopped
@@ -56,8 +56,8 @@ services:
       - TZ=Etc/UTC
     volumes:
       - $HOME/homelab-data/services-config/bazarr:/config
-      - /mnt/media/library/media/movies:/movies #optional
-      - /mnt/media/library/media/tv:/tv #optional
+      - /mnt/data/media/movies:/movies #optional
+      - /mnt/data/media/tv:/tv #optional
     ports:
       - 6767:6767
     restart: unless-stopped

@@ -9,7 +9,7 @@ services:
       - WEBUI_PORT=9888
     volumes:
       - $HOME/homelab-data/services-config/qbittorent:/config
-      - /mnt/media/library/torrents:/downloads
+      - /mnt/data/torrents:/downloads
     ports:
       - 9888:9888
       - 6881:6881

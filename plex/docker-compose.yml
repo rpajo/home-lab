@@ -13,4 +13,4 @@ services:
     volumes:
       - $HOME/homelab-data/services-config/plex:/config
       - $HOME/homelab-data/media:/local-media
-      - /mnt/media:/media-dirve
+      - /mnt/data:/media-dirve
