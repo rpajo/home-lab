@@ -9,6 +9,7 @@ services:
       - TZ=Europe/Ljubljana
     volumes:
       - $HOME/homelab-data/services-config/homeassistant:/config
+      - $HOME/homelab-data/services-config/file-server/homeassistant:/file-server
     # ports:
       # - 8123:8123
     # devices:

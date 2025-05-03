@@ -1,0 +1,8 @@
+services:
+  file-server:
+    image: rpajo/basic-file-server:latest
+    ports:
+      - "7173:8000"
+    volumes:
+      -  $HOME/homelab-data/services-config/file-server:/app/static
+    restart: unless-stopped
