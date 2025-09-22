@@ -1,16 +1,12 @@
-version: '3'
-#---------------------------------------------------------------------#
-#     Homarr - A simple, yet powerful dashboard for your server.     #
-#---------------------------------------------------------------------#
 services:
-  homarr:
-    container_name: homarr
-    image: ghcr.io/ajnart/homarr:latest
+  homarr-v1:
+    container_name: homarr-v1
+    image: ghcr.io/homarr-labs/homarr:latest
     restart: unless-stopped
     volumes:
-      - $HOME/homelab-data/services-config/homarr/configs:/app/data/configs
-      - $HOME/homelab-data/services-config/homarr/icons:/app/public/icons
-      - $HOME/homelab-data/services-config/homarr/data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
+      - $HOME/homelab-data/services-config/homarr/appdata:/appdata
+    env_file:
+      - $HOME/services/homarr/.env
     ports:
-      - '7575:7575'
+      - '7576:7575'
