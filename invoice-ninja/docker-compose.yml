@@ -1,17 +1,91 @@
-version: "3"
+x-logging: &default-logging
+  options:
+    max-size: "10m"
+    max-file: "3"
+  driver: json-file
 
 services:
-  invoice-ninja:
-    container_name: "invoice-ninja"
-    image: invoiceninja/invoiceninja:5
-    env_file: 
-      - $HOME/services/invoice-ninja/.env
+  app:
+    image: invoiceninja/invoiceninja-debian:${TAG:-latest}
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    volumes:
+      - ./.env:/var/www/html/.env
+      - app_public:/var/www/html/public
+      - app_storage:/var/www/html/storage
+      # - ./php/php.ini:/usr/local/etc/php/conf.d/invoiceninja.ini:ro
+      # - ./php/php-fpm.conf:/usr/local/etc/php-fpm.d/invoiceninja.conf:ro
+      # - ./supervisor/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf:ro
+    networks:
+      - app-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    logging: *default-logging
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "9003:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d:ro
+      - app_public:/var/www/html/public:ro
+      - app_storage:/var/www/html/storage:ro
+    networks:
+      - app-network
+    depends_on:
+      - app
+    logging: *default-logging
+
+  mysql:
+    image: mysql:8
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USER}", "-p${MYSQL_PASSWORD}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging: *default-logging
+
+  redis:
+    image: redis:alpine
     restart: unless-stopped
     volumes:
-      # - ./config/hosts:/etc/hosts:ro
-      - /srv/invoice-ninja/public:/var/www/app/public:rw,delegated
-      - /srv/invoice-ninja/storage:/var/www/app/storage:rw,delegated
-      # - ./config/php/php.ini:/usr/local/etc/php/php.ini
-      # - ./config/php/php-cli.ini:/usr/local/etc/php/php-cli.ini
-    ports:
-      - 9002:9000
+      - redis_data:/data
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging: *default-logging
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  app_public:
+    driver: local
+  app_storage:
+    driver: local  
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
