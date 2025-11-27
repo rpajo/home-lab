@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
   autobrr:
     container_name: autobrr
@@ -11,8 +9,15 @@ services:
     #    max-file: ${DOCKERLOGGING_MAXFILE}
     #    max-size: ${DOCKERLOGGING_MAXSIZE}
     environment:
-      - TZ=${TZ}
+      - TZ=Europe/Ljubljana
     volumes:
       - $HOME/homelab-data/services-config/autobrr:/config
-    ports:
-      - 7474:7474
+    labels:
+      - proxy.port=7474
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    name: proxy
+    external: true

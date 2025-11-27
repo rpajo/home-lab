@@ -1,0 +1,14 @@
+services:
+  esphome:
+    container_name: esphome
+    image: ghcr.io/esphome/esphome:2025.11
+    volumes:
+      - $HOME/homelab-data/services-config/esphome:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    privileged: true
+    network_mode: host
+    env_file:
+      - $HOME/services/esp-home/.env
+    labels:
+      - proxy.port=6052

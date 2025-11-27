@@ -3,11 +3,13 @@ services:
     image: henrygd/beszel
     container_name: beszel
     restart: unless-stopped
-    ports:
-      - 8090:8090
     volumes:
       - $HOME/homelab-data/services-config/beszel/beszel_data:/beszel_data
       - $HOME/homelab-data/services-config/beszel/beszel_socket:/beszel_socket
+    labels:
+      - proxy.port=8090
+    networks:
+      - proxy
 
   beszel-agent:
     image: "henrygd/beszel-agent"
@@ -22,3 +24,8 @@ services:
     environment:
       LISTEN: /beszel_socket/beszel.sock
       KEY: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC4/e2pcayVnqoCWrwXfl4A9ykWe7K56ucxaGX65wc/f"
+
+networks:
+  proxy:
+    name: proxy
+    external: true
