@@ -1,12 +1,19 @@
 services:
-  homarr-v1:
-    container_name: homarr-v1
+  homarr:
+    container_name: homarr
     image: ghcr.io/homarr-labs/homarr:latest
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Optional, only if you want docker integration
       - $HOME/homelab-data/services-config/homarr/appdata:/appdata
     env_file:
-      - $HOME/services/homarr/.env
-    ports:
-      - '7576:7575'
+      - ./.env
+    labels:
+      - proxy.port=7575
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    name: proxy
+    external: true

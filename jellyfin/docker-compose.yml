@@ -14,9 +14,16 @@ services:
       - $HOME/homelab-data/media:/local-media
       - /mnt/data:/media-drive
     ports:
-      - 8096:8096       # web UI
-      - 8920:8920       # https web UI
+      # - 8096:8096       # web UI
+      # - 8920:8920       # https web UI
       - 7359:7359/udp   # discovery port
       # - 1900:1900/udp # DNLA
     devices:
       - /dev/dri:/dev/dri
+    labels:
+      - proxy.port=8096
+
+networks:
+  proxy:
+    name: proxy
+    external: true

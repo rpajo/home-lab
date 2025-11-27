@@ -3,9 +3,16 @@ services:
     image: huntarr/huntarr:latest
     container_name: huntarr
     restart: always
-    ports:
-      - "9705:9705"
     volumes:
       - $HOME/homelab-data/services-config/huntarr:/config
     environment:
       - TZ=Europe/Ljubljana
+    labels:
+      - proxy.port=9705
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    name: proxy
+    external: true

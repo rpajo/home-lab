@@ -28,18 +28,20 @@ services:
 
   nginx:
     image: nginx:alpine
+    container_name: invoiceninja-nginx
     restart: unless-stopped
-    ports:
-      - "9003:80"
     volumes:
       - ./nginx:/etc/nginx/conf.d:ro
       - app_public:/var/www/html/public:ro
       - app_storage:/var/www/html/storage:ro
     networks:
       - app-network
+      - proxy
     depends_on:
       - app
     logging: *default-logging
+    labels:
+      - proxy.port=80
 
   mysql:
     image: mysql:8
@@ -79,6 +81,9 @@ services:
 networks:
   app-network:
     driver: bridge
+  proxy:
+    name: proxy
+    external: true
 
 volumes:
   app_public:
