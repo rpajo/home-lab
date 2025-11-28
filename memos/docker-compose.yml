@@ -1,4 +1,3 @@
-version: "3.0"
 services:
   memos:
     image: neosmemo/memos:latest
@@ -6,5 +5,12 @@ services:
     restart: unless-stopped
     volumes:
       - $HOME/homelab-data/services-config/memos:/var/opt/memos
-    ports:
-      - 5230:5230
+    labels:
+      - proxy.port=5230
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    name: proxy
+    external: true

@@ -1,11 +1,8 @@
-version: "3.7"
 services:
   mealie:
     image: ghcr.io/mealie-recipes/mealie:v1.0.0-RC1.1
     container_name: mealie
     restart: unless-stopped
-    ports:
-      - 9925:9000
     deploy:
       resources:
         limits:
@@ -20,6 +17,16 @@ services:
       - MAX_WORKERS=1
       - WEB_CONCURRENCY=1
       - BASE_URL=https://mealie.rpajo.com
+    labels:
+      - proxy.port=9000
+    networks:
+      - proxy
+
 volumes:
   mealie-data:
     driver: local
+
+networks:
+  proxy:
+    name: proxy
+    external: true

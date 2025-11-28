@@ -12,6 +12,8 @@ services:
       # - ./site:/srv
       - caddy_data:/data
       - caddy_config:/config
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
     networks:
       - proxy
 

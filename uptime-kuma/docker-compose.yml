@@ -3,7 +3,14 @@ services:
     container_name: uptime-kuma
     image: louislam/uptime-kuma:latest
     restart: always
-    ports:
-      - 3001:3001
     volumes:
       - $HOME/homelab-data/services-config/uptime-kuma:/app/data
+    networks:
+      - proxy
+    labels:
+      - proxy.port=3001
+
+networks:
+  proxy:
+    name: proxy
+    external: true

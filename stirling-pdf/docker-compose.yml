@@ -1,9 +1,8 @@
 services:
   stirling-pdf:
     image: stirlingtools/stirling-pdf:latest
+    container_name: stirling
     restart: unless-stopped
-    ports:
-      - "5566:8080"
     volumes:
       - $HOME/homelab-data/services-config/stirling-pdf/extraConfigs:/configs
       - $HOME/homelab-data/services-config/stirling-pdf/customFiles:/customFiles/
@@ -14,3 +13,12 @@ services:
       - DOCKER_ENABLE_SECURITY=false
       - INSTALL_BOOK_AND_ADVANCED_HTML_OPS=false
       - LANGS=en_GB
+    networks:
+      - proxy
+    labels:
+      - proxy.port=8080
+
+networks:
+  proxy:
+    name: proxy
+    external: true
